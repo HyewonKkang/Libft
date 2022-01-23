@@ -1,28 +1,26 @@
 #include "libft.h"
-# define INT_MIN -2147483648
-# define INT_MAX 2147483647
 
 int	ft_atoi(const char *str)
 {
-	int			negative;
-	long long	result;
+	long long	n;
+	int			neg;
 
-	negative = 1;
-	result = 0;
+	n = 0;
+	neg = 1;
 	while ((*str >= 9 && *str <= 13) || *str == 32)
 		str++;
 	if (*str == '-')
-		negative *= -1;
-	while (*str == '-' || *str == '+')
+		neg *= -1;
+	if (*str == '-' || *str == '+')
 		str++;
-	while (ft_isdigit(*str))
+	while (*str && ft_isdigit(*str))
 	{
-		result = result * 10 + (*str - '0');
-		if (negative * result < INT_MIN)
-			return (0);
-		else if (negative * result > INT_MAX)
-			return (-1);
+		n = n * 10 + (*str - '0');
 		str++;
 	}
-	return (negative * result);
+	if (neg * n > 2147483647)
+		return (-1);
+	else if (neg * n < -2147483648)
+		return (0);
+	return (neg * n);
 }

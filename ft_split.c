@@ -1,25 +1,27 @@
 #include "libft.h"
 
-int		count_words(char *s, char c)
+int		count_words(char const *s, char c)
 {
 	int	cnt;
+	int	i;
 
 	cnt = 0;
-	while (*s)
+	i = 0;
+	while (s[i])
 	{
-		if (*s == c)
-			s++;
-		else
+		while (s[i] == c)
+			i++;
+		if (s[i] && s[i] != c)
 		{
 			cnt++;
-			while (*s && *s != c)
-				s++;
+			while (s[i] && s[i] != c)
+				i++;
 		}
 	}
 	return (cnt);
 }
 
-char	*malloc_word(char *s, char c)
+char	*malloc_word(char const *s, char c)
 {
 	char	*word;
 	int		i;
@@ -28,6 +30,8 @@ char	*malloc_word(char *s, char c)
 	while(s[i] && s[i] != c)
 		i++;
 	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (!word)
+		return (NULL);
 	i = 0;
 	while(s[i] && s[i] != c)
 	{
@@ -41,6 +45,7 @@ char	*malloc_word(char *s, char c)
 char	**free_all_array(char **s)
 {
 	int		i;
+
 	i = 0;
 	while(s[i])
 	{
@@ -64,17 +69,16 @@ char	**ft_split(char const *s, char c)
 		return NULL;
 	while (*s)
 	{
-		while (*s == c)
+		while (*s && *s == c)
 			s++;
-		if (*s != c)
+		if (*s && *s != c)
 		{
 			if (!(res[i++] = malloc_word(s, c)))
 				return (free_all_array(res));
-			res[i++] = malloc_word(s, c);
 			while (*s && *s != c)
 				s++;
 		}
 	}
-	res[i] = '\0';
+	res[i] = NULL;
 	return (res);
 }
