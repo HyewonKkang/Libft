@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hykang <hykang@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/25 16:04:52 by hykang            #+#    #+#             */
+/*   Updated: 2022/01/25 17:31:41 by hykang           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-int		count_words(char const *s, char c)
+int	count_words(char const *s, char c)
 {
 	int	cnt;
 	int	i;
@@ -27,13 +39,13 @@ char	*malloc_word(char const *s, char c)
 	int		i;
 
 	i = 0;
-	while(s[i] && s[i] != c)
+	while (s[i] && s[i] != c)
 		i++;
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	if (!word)
 		return (NULL);
 	i = 0;
-	while(s[i] && s[i] != c)
+	while (s[i] && s[i] != c)
 	{
 		word[i] = s[i];
 		i++;
@@ -47,7 +59,7 @@ char	**free_all_array(char **s)
 	int		i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		free(s[i]);
 		i++;
@@ -63,17 +75,18 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	if (!s)
-		return NULL;
+		return (NULL);
 	res = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!res)
-		return NULL;
+		return (NULL);
 	while (*s)
 	{
 		while (*s && *s == c)
 			s++;
 		if (*s && *s != c)
 		{
-			if (!(res[i++] = malloc_word(s, c)))
+			res[i++] = malloc_word(s, c);
+			if (!res)
 				return (free_all_array(res));
 			while (*s && *s != c)
 				s++;
